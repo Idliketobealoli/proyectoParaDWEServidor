@@ -1,6 +1,6 @@
 package daniel.marina.proyectoparadweservidor.controllers;
 
-import daniel.marina.proyectoparadweservidor.config.security.jwt.JwtTokenUtils;
+import daniel.marina.proyectoparadweservidor.config.jwt.JwtTokenUtils;
 import daniel.marina.proyectoparadweservidor.dto.user.*;
 import daniel.marina.proyectoparadweservidor.errors.UserException;
 import daniel.marina.proyectoparadweservidor.mappers.UserMapper;

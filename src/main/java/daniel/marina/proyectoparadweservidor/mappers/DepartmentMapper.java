@@ -1,7 +1,7 @@
 package daniel.marina.proyectoparadweservidor.mappers;
 
-import daniel.marina.proyectoparadweservidor.dto.DepartmentRequestDto;
-import daniel.marina.proyectoparadweservidor.dto.DepartmentResponseDto;
+import daniel.marina.proyectoparadweservidor.dto.department.DepartmentRequestDto;
+import daniel.marina.proyectoparadweservidor.dto.department.DepartmentResponseDto;
 import daniel.marina.proyectoparadweservidor.model.Department;
 import org.springframework.stereotype.Component;
 

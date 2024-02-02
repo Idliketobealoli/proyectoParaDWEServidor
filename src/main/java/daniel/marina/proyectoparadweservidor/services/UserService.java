@@ -1,6 +1,6 @@
 package daniel.marina.proyectoparadweservidor.services;
 
-import daniel.marina.proyectoparadweservidor.config.security.jwt.JwtTokenUtils;
+import daniel.marina.proyectoparadweservidor.config.jwt.JwtTokenUtils;
 import daniel.marina.proyectoparadweservidor.dto.user.*;
 import daniel.marina.proyectoparadweservidor.errors.UserException;
 import daniel.marina.proyectoparadweservidor.mappers.UserMapper;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,15 +22,13 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtils tokenUtils;
 
     private final UserMapper mapper;
 
     @Autowired
-    public UserService(UserRepository repository, PasswordEncoder passwordEncoder, JwtTokenUtils tokenUtils, UserMapper mapper) {
+    public UserService(UserRepository repository, JwtTokenUtils tokenUtils, UserMapper mapper) {
         this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
         this.tokenUtils = tokenUtils;
         this.mapper = mapper;
     }
@@ -96,6 +93,20 @@ public class UserService implements UserDetailsService {
         return mapper.toDto(user);
     }
 
+    public UserDto updateSelf(UUID id, UserDtoUpdate dto) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new UserException.UserNotFoundException(
+                        "User with ID " + id + " not found."));
+
+        if (!Objects.equals(user.getUserPassword(), dto.getPassword())) {
+            throw new UserException.UserBadRequestException(
+                    "Incorrect password.");
+        }
+
+        User saved = repository.save(new User(user.getId(), user.getUsername(), dto.getNewPassword(), user.getRole()));
+        return mapper.toDto(saved);
+    }
+
     public UserDto update(UserDtoUpdate dto) {
         User user = repository.findByUserName(dto.getEmail())
                 .orElseThrow(() -> new UserException.UserNotFoundException(
@@ -110,12 +121,12 @@ public class UserService implements UserDetailsService {
         return mapper.toDto(saved);
     }
 
-    public UserDto delete(UUID id) {
-        User user = repository.findById(id)
+    public UserDto delete(String email) {
+        User user = repository.findByUserName(email)
                 .orElseThrow(() -> new UserException.UserNotFoundException(
-                        "User with ID " + id + " not found."));
+                        "User with email " + email + " not found."));
 
-        repository.deleteById(id);
+        repository.deleteById(user.getId());
         return mapper.toDto(user);
     }
 }

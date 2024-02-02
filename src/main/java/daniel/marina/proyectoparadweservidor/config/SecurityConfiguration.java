@@ -1,7 +1,7 @@
-package daniel.marina.proyectoparadweservidor.config.security;
+package daniel.marina.proyectoparadweservidor.config;
 
-import daniel.marina.proyectoparadweservidor.config.security.jwt.JwtAuthenticationFilter;
-import daniel.marina.proyectoparadweservidor.config.security.jwt.JwtTokenUtils;
+import daniel.marina.proyectoparadweservidor.config.jwt.JwtAuthenticationFilter;
+import daniel.marina.proyectoparadweservidor.config.jwt.JwtTokenUtils;
 import daniel.marina.proyectoparadweservidor.mappers.UserMapper;
 import daniel.marina.proyectoparadweservidor.repositories.UserRepository;
 import daniel.marina.proyectoparadweservidor.services.UserService;
@@ -32,14 +32,12 @@ public class SecurityConfiguration {
     private final UserRepository repository;
 
     private final JwtTokenUtils tokenUtils;
-    private final AuthenticationManager manager;
 
     private final UserMapper mapper;
 
-    public SecurityConfiguration(UserRepository repository, JwtTokenUtils tokenUtils, AuthenticationManager manager, UserMapper mapper) {
+    public SecurityConfiguration(UserRepository repository, JwtTokenUtils tokenUtils, UserMapper mapper) {
         this.repository = repository;
         this.tokenUtils = tokenUtils;
-        this.manager = manager;
         this.mapper = mapper;
     }
 
@@ -48,10 +46,10 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(mvc.pattern("/api/products")).permitAll()
-                        .requestMatchers(mvc.pattern("/api/auth/login")).permitAll()
-                        .requestMatchers(mvc.pattern("/api/auth/signup")).permitAll()
+                        .requestMatchers(mvc.pattern("/company/users/login")).permitAll()
+                        .requestMatchers(mvc.pattern("/company/users/register")).permitAll()
                         .anyRequest().authenticated()
+                        //.anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(customizer -> customizer
@@ -63,7 +61,7 @@ public class SecurityConfiguration {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(tokenUtils, manager);
+        return new JwtAuthenticationFilter();
     }
 
     @Bean
@@ -83,12 +81,12 @@ public class SecurityConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserService(repository, passwordEncoder(), tokenUtils, mapper);
+        return new UserService(repository, tokenUtils, mapper);
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean

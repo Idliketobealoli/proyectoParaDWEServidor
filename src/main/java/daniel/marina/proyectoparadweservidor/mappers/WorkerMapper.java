@@ -1,7 +1,7 @@
 package daniel.marina.proyectoparadweservidor.mappers;
 
-import daniel.marina.proyectoparadweservidor.dto.WorkerRequestDto;
-import daniel.marina.proyectoparadweservidor.dto.WorkerResponseDto;
+import daniel.marina.proyectoparadweservidor.dto.worker.WorkerRequestDto;
+import daniel.marina.proyectoparadweservidor.dto.worker.WorkerResponseDto;
 import daniel.marina.proyectoparadweservidor.model.Worker;
 import daniel.marina.proyectoparadweservidor.services.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;

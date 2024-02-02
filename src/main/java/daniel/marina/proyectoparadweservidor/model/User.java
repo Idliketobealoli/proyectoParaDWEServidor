@@ -1,9 +1,9 @@
 package daniel.marina.proyectoparadweservidor.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,10 +16,12 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table
+@Table(name = "_User")
+@Entity
 public class User implements UserDetails {
     @Id
-    private UUID id = null;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     private String userName;
     private String userPassword;
     private Role role;

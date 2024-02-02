@@ -1,4 +1,4 @@
-package daniel.marina.proyectoparadweservidor.config.security.jwt;
+package daniel.marina.proyectoparadweservidor.config.jwt;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import daniel.marina.proyectoparadweservidor.services.UserService;

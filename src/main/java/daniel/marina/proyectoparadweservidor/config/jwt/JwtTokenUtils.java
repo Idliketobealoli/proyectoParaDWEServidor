@@ -1,4 +1,4 @@
-package daniel.marina.proyectoparadweservidor.config.security.jwt;
+package daniel.marina.proyectoparadweservidor.config.jwt;
 
 import daniel.marina.proyectoparadweservidor.model.User;
 import org.springframework.stereotype.Component;
