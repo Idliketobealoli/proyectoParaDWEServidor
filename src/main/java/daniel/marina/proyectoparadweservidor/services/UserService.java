@@ -35,17 +35,17 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findByUserName(username)
-                .orElseThrow(() -> new UserException.UserExceptionNotFound(
+                .orElseThrow(() -> new UserException.UserNotFoundException(
                         "Usuario con email " + username + " no encontrado."));
     }
 
     public User register(UserDtoRegister dto) {
         if (!Objects.equals(dto.getPassword(), dto.getRepeatPassword())) {
-            throw new UserException.UserExceptionBadRequest(
+            throw new UserException.UserBadRequestException(
                     "Password and repeated password do not match.");
         }
         repository.findByUserName(dto.getEmail())
-                .orElseThrow(() -> new UserException.UserExceptionBadRequest(
+                .orElseThrow(() -> new UserException.UserBadRequestException(
                         "There's already an account linked to this email."));
 
         return repository.save(new User(null, dto.getEmail(), dto.getPassword(), Role.USER));
@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
     public User create(UserDtoCreate dto) {
         Optional<User> user = repository.findByUserName(dto.getEmail());
         if (user.isPresent()) {
-            throw new UserException.UserExceptionBadRequest(
+            throw new UserException.UserBadRequestException(
                     "There's already an account linked to this email.");
         }
 
@@ -71,13 +71,13 @@ public class UserService implements UserDetailsService {
 
     public UserDto findUserByEmail(String email) {
         User user = repository.findByUserName(email)
-                .orElseThrow(() -> new UserException.UserExceptionNotFound(
+                .orElseThrow(() -> new UserException.UserNotFoundException(
                         "Usuario con email " + email + " no encontrado."));
         return UserMapper.toDto(user);
     }
 
     public UserDto findUserById(UUID id) {
-        User user = repository.findById(id).orElseThrow(() -> new UserException.UserExceptionNotFound(
+        User user = repository.findById(id).orElseThrow(() -> new UserException.UserNotFoundException(
                 "Usuario con ID " + id + " no encontrado."));
         return UserMapper.toDto(user);
     }

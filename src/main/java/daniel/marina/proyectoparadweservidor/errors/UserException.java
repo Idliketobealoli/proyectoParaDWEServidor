@@ -10,15 +10,15 @@ public class UserException extends RuntimeException {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public static class UserExceptionBadRequest extends UserException {
-        public UserExceptionBadRequest(String message) {
+    public static class UserBadRequestException extends UserException {
+        public UserBadRequestException(String message) {
             super(message);
         }
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public static class UserExceptionNotFound extends UserException {
-        public UserExceptionNotFound(String message) {
+    public static class UserNotFoundException extends UserException {
+        public UserNotFoundException(String message) {
             super(message);
         }
     }
