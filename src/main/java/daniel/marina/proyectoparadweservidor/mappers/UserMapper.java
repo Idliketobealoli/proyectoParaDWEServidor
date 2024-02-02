@@ -1,7 +1,7 @@
 package daniel.marina.proyectoparadweservidor.mappers;
 
-import daniel.marina.proyectoparadweservidor.dto.UserDto;
-import daniel.marina.proyectoparadweservidor.dto.UserDtoRegister;
+import daniel.marina.proyectoparadweservidor.dto.user.UserDto;
+import daniel.marina.proyectoparadweservidor.dto.user.UserDtoRegister;
 import daniel.marina.proyectoparadweservidor.model.Role;
 import daniel.marina.proyectoparadweservidor.model.User;
 import daniel.marina.proyectoparadweservidor.repositories.UserRepository;

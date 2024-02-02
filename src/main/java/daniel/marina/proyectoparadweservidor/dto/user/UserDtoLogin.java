@@ -1,4 +1,4 @@
-package daniel.marina.proyectoparadweservidor.dto;
+package daniel.marina.proyectoparadweservidor.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
