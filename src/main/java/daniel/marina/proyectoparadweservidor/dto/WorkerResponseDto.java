@@ -9,8 +9,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class WorkerResponseDto {
     private UUID id;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String phone;
     private Department department;

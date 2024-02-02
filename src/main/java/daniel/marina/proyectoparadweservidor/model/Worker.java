@@ -10,8 +10,7 @@ import java.util.UUID;
 public class Worker {
     @Id
     private UUID id = null;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String phone;
     private Department department;
