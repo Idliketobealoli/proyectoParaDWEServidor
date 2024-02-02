@@ -14,5 +14,5 @@ public class Worker {
     private String lastName;
     private String email;
     private String phone;
-    private UUID departmentUuid;
+    private Department department;
 }
