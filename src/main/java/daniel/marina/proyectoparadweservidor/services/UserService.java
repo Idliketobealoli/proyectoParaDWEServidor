@@ -107,12 +107,26 @@ public class UserService implements UserDetailsService {
         return UserMapper.toDto(saved);
     }
 
-    public UserDto delete(UUID id) {
+    public UserDto updateSelf(UUID id, UserDtoUpdate dto) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new UserException.UserNotFoundException(
                         "User with ID " + id + " not found."));
 
-        repository.deleteById(id);
+        if (!Objects.equals(user.getUserPassword(), dto.getPassword())) {
+            throw new UserException.UserBadRequestException(
+                    "Incorrect password.");
+        }
+
+        User saved = repository.save(new User(user.getId(), user.getUsername(), dto.getNewPassword(), user.getRole()));
+        return UserMapper.toDto(saved);
+    }
+
+    public UserDto delete(String email) {
+        User user = repository.findByUserName(email)
+                .orElseThrow(() -> new UserException.UserNotFoundException(
+                        "User with email " + email + " not found."));
+
+        repository.deleteById(user.getId());
         return UserMapper.toDto(user);
     }
 }

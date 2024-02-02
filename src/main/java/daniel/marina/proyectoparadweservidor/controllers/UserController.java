@@ -15,6 +15,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,5 +99,34 @@ public class UserController {
         User user = (User) authentication.getPrincipal();
 
         return ResponseEntity.ok(new UserDtoWithToken(UserMapper.toDto(user), jwtTokenUtils.create(user)));
+    }
+
+    @PutMapping("/update/me")
+    public ResponseEntity<UserDto> updateMySelf(
+            @AuthenticationPrincipal User user,
+            @Valid @RequestBody UserDtoUpdate dto
+    ) {
+        log.info("Updating self");
+        //dto.validate();
+        return ResponseEntity.ok(service.updateSelf(user.getId(), dto));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserDto> update(
+            @AuthenticationPrincipal User user,
+            @Valid @RequestBody UserDtoUpdate dto
+    ) {
+        log.info("Updating");
+        //dto.validate();
+        return ResponseEntity.ok(service.update(dto));
+    }
+
+    @DeleteMapping("/delete/{email}")
+    public ResponseEntity<UserDto> delete(
+            @PathVariable String email,
+            @AuthenticationPrincipal User user
+    ) {
+        log.info("Deleting");
+        return ResponseEntity.ok(service.delete(email));
     }
 }
