@@ -13,5 +13,5 @@ public class Department {
     private UUID id = null;
     private String name;
     private String description;
-    private int departmentNumber;
+    private int number;
 }
