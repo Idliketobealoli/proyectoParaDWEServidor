@@ -13,6 +13,6 @@ public class WorkerRequestDto {
     private String lastName;
     private String email;
     private String phone;
-    private UUID departmentId; // TODO shoud be department objetct not id
+    private Department department;
 
 }

@@ -12,5 +12,5 @@ public class WorkerResponseDto {
     private String name;
     private String email;
     private String phone;
-    private UUID departmentId; // TODO shoud be department objetct not id
+    private Department department;
 }

@@ -3,36 +3,44 @@ package daniel.marina.proyectoparadweservidor.mappers;
 import daniel.marina.proyectoparadweservidor.dto.WorkerRequestDto;
 import daniel.marina.proyectoparadweservidor.dto.WorkerResponseDto;
 import daniel.marina.proyectoparadweservidor.model.Worker;
+import daniel.marina.proyectoparadweservidor.services.DepartmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
-// TODO toDto and toModel will change when dto changes
+@Component
 public class WorkerMapper {
-    public static WorkerResponseDto toDto(Worker worker){
+    private final DepartmentService departmentService;
+    @Autowired
+    public WorkerMapper(DepartmentService departmentService){
+        this.departmentService = departmentService;
+    }
+    public WorkerResponseDto toDto(Worker worker){
         return new WorkerResponseDto(
                 worker.getId(),
                 worker.getName(),
                 worker.getEmail(),
                 worker.getPhone(),
-                worker.getDepartmentId()
+                departmentService.findById(worker.getDepartmentId())
         );
     }
 
-    public static List<WorkerResponseDto> toDto (List<Worker> workers){
-        return workers.stream().map(WorkerMapper::toDto).toList();
+    public List<WorkerResponseDto> toDto (List<Worker> workers){
+        return workers.stream().map(this::toDto).toList();
     }
 
 
 
 
-    public static Worker toModel(WorkerRequestDto workerRequestDto) {
+    public Worker toModel(WorkerRequestDto workerRequestDto) {
         return new Worker(
                 UUID.randomUUID(),
                 workerRequestDto.getFirstName() + " " + workerRequestDto.getLastName(),
                 workerRequestDto.getEmail(),
                 workerRequestDto.getPhone(),
-                workerRequestDto.getDepartmentId()
+                workerRequestDto.getDepartment().getId()
         );
     }
 }
