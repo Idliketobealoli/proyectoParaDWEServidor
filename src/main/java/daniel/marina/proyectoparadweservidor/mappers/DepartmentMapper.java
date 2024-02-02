@@ -3,12 +3,14 @@ package daniel.marina.proyectoparadweservidor.mappers;
 import daniel.marina.proyectoparadweservidor.dto.DepartmentRequestDto;
 import daniel.marina.proyectoparadweservidor.dto.DepartmentResponseDto;
 import daniel.marina.proyectoparadweservidor.model.Department;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
+@Component
 public class DepartmentMapper {
-    public static DepartmentResponseDto toDto(Department department){
+    public DepartmentResponseDto toDto(Department department){
         return new DepartmentResponseDto(
                 department.getId(),
                 department.getName(),
@@ -17,11 +19,11 @@ public class DepartmentMapper {
         );
     }
 
-    public static List<DepartmentResponseDto> toDto (List<Department> departments){
-        return departments.stream().map(DepartmentMapper::toDto).toList();
+    public List<DepartmentResponseDto> toDto (List<Department> departments){
+        return departments.stream().map(this::toDto).toList();
     }
 
-    public static Department toModel(DepartmentRequestDto departmentRequestDto) {
+    public Department toModel(DepartmentRequestDto departmentRequestDto) {
         return new Department(
                 UUID.randomUUID(),
                 departmentRequestDto.getName(),
@@ -30,12 +32,12 @@ public class DepartmentMapper {
         );
     }
 
-    public static Department toModel(UUID id) {
+    /* public Department toModel(UUID id) {
         return new Department(
                 id,
                null,
                 null,
                 0
         );
-    }
+    } */
 }
