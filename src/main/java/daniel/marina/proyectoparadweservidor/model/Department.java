@@ -10,5 +10,8 @@ import java.util.UUID;
 @Table
 public class Department {
     @Id
-    UUID id = null;
+    private UUID id = null;
+    private String name;
+    private String description;
+    private int departmentNumber;
 }
