@@ -1,7 +1,9 @@
 package daniel.marina.proyectoparadweservidor.dto;
 
+import daniel.marina.proyectoparadweservidor.model.Department;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 
 @Data
 @AllArgsConstructor
@@ -10,4 +12,6 @@ public class WorkerRequestDto {
     private String lastName;
     private String email;
     private String phone;
+    private Department department;
+
 }

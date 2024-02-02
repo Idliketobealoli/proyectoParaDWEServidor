@@ -29,11 +29,13 @@ public class UserController {
     private final UserService service;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtils jwtTokenUtils;
+    private final UserMapper mapper;
 
-    @Autowired public UserController(UserService service, AuthenticationManager authenticationManager, JwtTokenUtils jwtTokenUtils) {
+    @Autowired public UserController(UserService service, AuthenticationManager authenticationManager, JwtTokenUtils jwtTokenUtils, UserMapper mapper) {
         this.service = service;
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtils = jwtTokenUtils;
+        this.mapper = mapper;
     }
 
     @GetMapping("")
@@ -98,7 +100,7 @@ public class UserController {
 
         User user = (User) authentication.getPrincipal();
 
-        return ResponseEntity.ok(new UserDtoWithToken(UserMapper.toDto(user), jwtTokenUtils.create(user)));
+        return ResponseEntity.ok(new UserDtoWithToken(mapper.toDto(user), jwtTokenUtils.create(user)));
     }
 
     @PutMapping("/update/me")
