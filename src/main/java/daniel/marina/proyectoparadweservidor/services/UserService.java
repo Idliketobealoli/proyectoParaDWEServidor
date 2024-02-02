@@ -26,11 +26,14 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtils tokenUtils;
 
+    private final UserMapper mapper;
+
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenUtils tokenUtils) {
-        this.repository = userRepository;
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder, JwtTokenUtils tokenUtils, UserMapper mapper) {
+        this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.tokenUtils = tokenUtils;
+        this.mapper = mapper;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class UserService implements UserDetailsService {
 
         User saved = repository.save(new User(null, dto.getEmail(), dto.getPassword(), Role.USER));
         return new UserDtoWithToken(
-                UserMapper.toDto(saved),
+                mapper.toDto(saved),
                 tokenUtils.create(saved)
         );
     }
@@ -67,30 +70,30 @@ public class UserService implements UserDetailsService {
 
         User saved = repository.save(new User(null, dto.getEmail(), dto.getPassword(), dto.getRole()));
         return new UserDtoWithToken(
-                UserMapper.toDto(saved),
+                mapper.toDto(saved),
                 tokenUtils.create(saved)
         );
     }
 
     public List<UserDto> listUsers() {
-        return UserMapper.toDto(repository.findAll());
+        return mapper.toDto(repository.findAll());
     }
 
     public List<UserDto> findUsersByRole(Role role) {
-        return UserMapper.toDto(repository.findAllByRole(role));
+        return mapper.toDto(repository.findAllByRole(role));
     }
 
     public UserDto findUserByEmail(String email) {
         User user = repository.findByUserName(email)
                 .orElseThrow(() -> new UserException.UserNotFoundException(
                         "User with email " + email + " not found."));
-        return UserMapper.toDto(user);
+        return mapper.toDto(user);
     }
 
     public UserDto findUserById(UUID id) {
         User user = repository.findById(id).orElseThrow(() -> new UserException.UserNotFoundException(
                 "User with ID " + id + " not found."));
-        return UserMapper.toDto(user);
+        return mapper.toDto(user);
     }
 
     public UserDto update(UserDtoUpdate dto) {
@@ -104,7 +107,7 @@ public class UserService implements UserDetailsService {
         }
 
         User saved = repository.save(new User(user.getId(), user.getUsername(), dto.getNewPassword(), user.getRole()));
-        return UserMapper.toDto(saved);
+        return mapper.toDto(saved);
     }
 
     public UserDto delete(UUID id) {
@@ -113,6 +116,6 @@ public class UserService implements UserDetailsService {
                         "User with ID " + id + " not found."));
 
         repository.deleteById(id);
-        return UserMapper.toDto(user);
+        return mapper.toDto(user);
     }
 }

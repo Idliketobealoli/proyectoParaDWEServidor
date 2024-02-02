@@ -5,13 +5,14 @@ import daniel.marina.proyectoparadweservidor.dto.user.UserDtoRegister;
 import daniel.marina.proyectoparadweservidor.model.Role;
 import daniel.marina.proyectoparadweservidor.model.User;
 import daniel.marina.proyectoparadweservidor.repositories.UserRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
+@Component
 public class UserMapper {
-    public static User fromDtoRegister(UserDtoRegister dto, UserRepository repository) {
+    public User fromDtoRegister(UserDtoRegister dto, UserRepository repository) {
         Optional<User> user = repository.findByUserName(dto.getEmail());
         if (user.isPresent() || !Objects.equals(dto.getPassword(), dto.getRepeatPassword())) {
             return null;
@@ -19,7 +20,7 @@ public class UserMapper {
         else return new User(null, dto.getEmail(), dto.getPassword(), Role.USER);
     }
 
-    public static UserDto toDto(User entity) {
+    public UserDto toDto(User entity) {
         return new UserDto(
                 entity.getId(),
                 entity.getUsername(),
@@ -27,7 +28,7 @@ public class UserMapper {
         );
     }
 
-    public static List<UserDto> toDto(List<User> entities) {
-        return entities.stream().map(UserMapper::toDto).toList();
+    public List<UserDto> toDto(List<User> entities) {
+        return entities.stream().map(this::toDto).toList();
     }
 }
