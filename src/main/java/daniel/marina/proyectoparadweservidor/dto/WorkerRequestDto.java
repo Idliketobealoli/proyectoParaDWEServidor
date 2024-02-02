@@ -4,7 +4,6 @@ import daniel.marina.proyectoparadweservidor.model.Department;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
