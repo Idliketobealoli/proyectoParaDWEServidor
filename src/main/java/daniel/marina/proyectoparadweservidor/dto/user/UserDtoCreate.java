@@ -1,18 +1,15 @@
-package daniel.marina.proyectoparadweservidor.dto;
+package daniel.marina.proyectoparadweservidor.dto.user;
 
 import daniel.marina.proyectoparadweservidor.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
-    private UUID id;
+public class UserDtoCreate {
     private String email;
+    private String password;
     private Role role;
 }
-
