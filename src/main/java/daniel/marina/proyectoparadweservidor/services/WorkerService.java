@@ -1,10 +1,8 @@
 package daniel.marina.proyectoparadweservidor.services;
 
 import daniel.marina.proyectoparadweservidor.errors.DepartmentException;
-import daniel.marina.proyectoparadweservidor.errors.UserException;
 import daniel.marina.proyectoparadweservidor.errors.WorkerException;
 import daniel.marina.proyectoparadweservidor.model.Department;
-import daniel.marina.proyectoparadweservidor.model.User;
 import daniel.marina.proyectoparadweservidor.model.Worker;
 import daniel.marina.proyectoparadweservidor.repositories.DepartmentRepository;
 import daniel.marina.proyectoparadweservidor.repositories.WorkerRepository;
