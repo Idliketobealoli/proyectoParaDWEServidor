@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             DecodedJWT decodedJWT;
             try {
-                Algorithm algorithm = Algorithm.HMAC256(jwtSecretKey);
+                Algorithm algorithm = Algorithm.HMAC512(jwtSecretKey);
                 JWTVerifier verifier = JWT.require(algorithm)
                         .withIssuer("proyectoParaDWEServidor")
                         .build();
@@ -45,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (JWTVerificationException exception){
-                logger.error(exception.getStackTrace());
+                logger.error("JWT verification failed: ", exception);
             }
         }
         doFilter(request, response, filterChain);

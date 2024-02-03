@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 @Component
 public class JwtTokenUtils {
-    protected static final String algorithmSecret = "TengoLosCadaveresDeCincoInfantesEnMiRefrigerador.NoSeLoDigasALaPolicia";
+    protected static final String algorithmSecret = "TengoElCadaverDeCuatroInfantesEnMiNevera";
     protected static final String TOKEN_TYPE = "JWT";
     protected static final String TOKEN_PREFIX = "Bearer ";
     protected static final String TOKEN_HEADER = "Authorization";
@@ -25,6 +25,7 @@ public class JwtTokenUtils {
                 .withHeader(map)
                 .withClaim("username", user.getUsername())
                 .withClaim("role", user.getRole().name())
+                .withIssuer("proyectoParaDWEServidor")
                 .withExpiresAt(new Date(System.currentTimeMillis() + (24 * 60 * 60 * 1_000) * 2)) // 2 days
                 .sign(Algorithm.HMAC512(algorithmSecret));
     }
