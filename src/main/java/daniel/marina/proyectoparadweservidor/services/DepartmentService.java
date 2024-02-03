@@ -34,6 +34,13 @@ public class DepartmentService {
         return departmentRepository.findDepartmentsByNameContainsIgnoreCase(name);
     }
 
+    public Department findByNumber(Integer number) {
+        return departmentRepository.findDepartmentByNumber(number)
+                .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
+                        "El departamento número " + number + " no existe."
+                ));
+    }
+
     public void delete(UUID id) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
@@ -77,5 +84,6 @@ public class DepartmentService {
         return departmentRepository.save(patch);
 
     }
+
 
 }

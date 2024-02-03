@@ -35,7 +35,11 @@ public class DepartmentController {
         return ResponseEntity.ok(mapper.toDto(service.findById(id)));
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("/number/{number}")
+    public ResponseEntity<DepartmentResponseDto> getByNumber(@PathVariable Integer number) {
+        return ResponseEntity.ok(mapper.toDto(service.findByNumber(number)));
+
+    }@GetMapping("/name/{name}")
     public ResponseEntity<List<DepartmentResponseDto>> getAllByNameLike(@PathVariable String name) {
         return ResponseEntity.ok(mapper.toDto(service.findByNameLike(name)));
     }
