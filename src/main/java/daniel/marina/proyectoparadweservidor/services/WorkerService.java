@@ -1,8 +1,10 @@
 package daniel.marina.proyectoparadweservidor.services;
 
 import daniel.marina.proyectoparadweservidor.errors.DepartmentException;
+import daniel.marina.proyectoparadweservidor.errors.UserException;
 import daniel.marina.proyectoparadweservidor.errors.WorkerException;
 import daniel.marina.proyectoparadweservidor.model.Department;
+import daniel.marina.proyectoparadweservidor.model.User;
 import daniel.marina.proyectoparadweservidor.model.Worker;
 import daniel.marina.proyectoparadweservidor.repositories.DepartmentRepository;
 import daniel.marina.proyectoparadweservidor.repositories.WorkerRepository;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,7 +26,7 @@ public class WorkerService {
         this.departmentRepository = departmentRepository;
     }
 
-    public Worker findById(UUID id) throws WorkerException {
+    public Worker findById(UUID id) {
         return workerRepository.findById(id)
                 .orElseThrow(() -> new WorkerException.WorkerNotFoundException(
                         "El trabajador con id " + id + " no existe."
@@ -38,22 +41,26 @@ public class WorkerService {
         return workerRepository.findWorkersByNameContainsIgnoreCase(name);
     }
 
-    public void deleteById(UUID id) {
-        workerRepository.deleteById(id);
+    public void delete(UUID id) {
+        Worker worker = workerRepository.findById(id)
+                .orElseThrow(() -> new WorkerException.WorkerNotFoundException(
+                        "El trabajador con id " + id + " no existe."
+                ));
+        workerRepository.delete(worker);
     }
 
-    public Worker save(Worker worker) {
-        Department department = null;
-        if (worker.getDepartmentId() != null) {
-            department = departmentRepository.findById(worker.getDepartmentId())
-                    .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
-                            "El departamento con id " + worker.getDepartmentId() + " no existe."
-                    ));
+    public Worker create(Worker worker) {
+        Optional <Worker> w = workerRepository.findById(worker.getId());
+        if (w.isPresent()) {
+            throw new WorkerException.WorkerBadRequestException(
+                    "El trabajador ya existe"
+            );
         }
+        Department department = getDepartment(worker);
         if (department != null) {
             return workerRepository.save(worker);
         } else {
-            throw new WorkerException.WorkerBadRequestException(
+            throw new DepartmentException.DepartmentNotFoundException(
                     "El id " + worker.getDepartmentId() + " no se corresponde con el de ningún departamento."
             );
         }
@@ -64,25 +71,19 @@ public class WorkerService {
                 .orElseThrow(() -> new WorkerException.WorkerNotFoundException(
                         "El trabajador con id " + id + " no existe."
                 ));
-        /*Department department = null;
-        if (worker.getDepartmentId() != null) {
-            department = departmentRepository.findById(worker.getDepartmentId())
-                    .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
-                            "El departamento con id " + worker.getDepartmentId() + " no existe."
-                    ));
-        }*/
+        Department department = getDepartment(worker);
 
-        /*if (department != null) { */
+        if (department != null) {
             updated.setName(worker.getName());
             updated.setEmail(worker.getEmail());
             updated.setPhone(worker.getPhone());
             updated.setDepartmentId(worker.getDepartmentId());
             return workerRepository.save(updated);
-        /*} else {
-            throw new WorkerException.WorkerBadRequestException(
+        } else {
+            throw new DepartmentException.DepartmentNotFoundException(
                     "El id " + worker.getDepartmentId() + " no se corresponde con el de ningún departamento."
             );
-        }*/
+        }
     }
 
     public Worker patch(UUID id, Worker worker) {
@@ -90,12 +91,31 @@ public class WorkerService {
                 .orElseThrow(() -> new WorkerException.WorkerNotFoundException(
                         "El trabajador con id " + id + " no existe."
                 ));
-        if(worker.getName() != null) patch.setName(worker.getName());
-        if(worker.getEmail() != null) patch.setEmail(worker.getEmail());
-        if(worker.getPhone() != null) patch.setPhone(worker.getPhone());
-        if(worker.getDepartmentId() != null) patch.setDepartmentId(worker.getDepartmentId());
 
-        return workerRepository.save(patch);
+        Department department = getDepartment(worker);
+
+        if (department != null) {
+            if (worker.getName() != null) patch.setName(worker.getName());
+            if (worker.getEmail() != null) patch.setEmail(worker.getEmail());
+            if (worker.getPhone() != null) patch.setPhone(worker.getPhone());
+            if (worker.getDepartmentId() != null) patch.setDepartmentId(worker.getDepartmentId());
+            return workerRepository.save(patch);
+        } else {
+            throw new DepartmentException.DepartmentNotFoundException(
+                    "El id " + worker.getDepartmentId() + " no se corresponde con el de ningún departamento."
+            );
+            }
+    }
+
+    private Department getDepartment(Worker worker) {
+        Department department = null;
+        if (worker.getDepartmentId() != null) {
+            department = departmentRepository.findById(worker.getDepartmentId())
+                    .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
+                            "El departamento con id " + worker.getDepartmentId() + " no existe."
+                    ));
+        }
+        return department;
     }
 
 }

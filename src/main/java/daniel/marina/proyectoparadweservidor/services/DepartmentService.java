@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,7 +19,7 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
     }
 
-    public Department findById(UUID id) throws DepartmentException {
+    public Department findById(UUID id) {
         return departmentRepository.findById(id)
                 .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
                         "El departamento con id " + id + " no existe."
@@ -28,4 +29,49 @@ public class DepartmentService {
     List<Department> findByNameLike(String name) {
         return departmentRepository.findDepartmentsByNameContainsIgnoreCase(name);
     }
+
+    public void delete(UUID id) {
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
+                        "El deoartamento con id " + id + " no existe."
+                ));
+        departmentRepository.delete(department);
+    }
+
+    public Department create(Department department) {
+        Optional<Department> w = departmentRepository.findById(department.getId());
+        if (w.isPresent()) {
+            throw new DepartmentException.DepartmentBadRequestException(
+                    "El departamento ya existe"
+            );
+        }
+        return departmentRepository.save(department);
+    }
+
+    public Department update(UUID id, Department department) {
+        Department updated = departmentRepository.findById(id)
+                .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
+                        "El departamento con id " + id + " no existe."
+                ));
+
+        updated.setName(department.getName());
+        updated.setDescription(department.getDescription());
+        updated.setNumber(department.getNumber());
+
+        return departmentRepository.save(updated);
+    }
+
+    public Department patch(UUID id, Department department) {
+        Department patch = departmentRepository.findById(id)
+                .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
+                        "El departamento con id " + id + " no existe."
+                ));
+
+        if (department.getName() != null) patch.setName(department.getName());
+        if (department.getDescription() != null) patch.setDescription(department.getDescription());
+        if (department.getNumber() != null) patch.setNumber(department.getNumber());
+        return departmentRepository.save(patch);
+
+    }
+
 }
