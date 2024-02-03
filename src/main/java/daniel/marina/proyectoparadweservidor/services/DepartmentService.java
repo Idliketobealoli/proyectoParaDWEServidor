@@ -31,7 +31,7 @@ public class DepartmentService {
                 ));
     }
 
-    List<Department> findByNameLike(String name) {
+    public List<Department> findByNameLike(String name) {
         return departmentRepository.findDepartmentsByNameContainsIgnoreCase(name);
     }
 
