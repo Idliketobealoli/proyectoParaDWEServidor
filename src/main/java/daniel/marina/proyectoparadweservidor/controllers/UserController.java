@@ -40,6 +40,7 @@ public class UserController {
 
     @GetMapping("")
     public ResponseEntity<List<UserDto>> getAll(
+            @AuthenticationPrincipal User user,
             @RequestParam @Nullable String role
     ) {
         try {
@@ -57,6 +58,7 @@ public class UserController {
 
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDto> findByEmail(
+            @AuthenticationPrincipal User user,
             @PathVariable String email
     ) {
         log.info("find by email " + email);
@@ -65,6 +67,7 @@ public class UserController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<UserDto> findById(
+            @AuthenticationPrincipal User user,
             @PathVariable UUID id
     ) {
         log.info("find by ID " + id);
@@ -73,6 +76,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDtoWithToken> create(
+            @AuthenticationPrincipal User user,
             @Valid @RequestBody UserDtoCreate dto
     ) {
         return ResponseEntity.created(null).body(service.create(dto));
