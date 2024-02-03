@@ -46,10 +46,21 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
+                        // users
                         .requestMatchers(mvc.pattern("/company/users/login")).permitAll()
                         .requestMatchers(mvc.pattern("/company/users/register")).permitAll()
+                        // departments
+                        .requestMatchers(mvc.pattern("/company/departments/update/")).hasRole("ADMIN")
+                        .requestMatchers(mvc.pattern("/company/departments/delete/")).hasRole("ADMIN")
+                        .requestMatchers(mvc.pattern("/company/departments/patch/")).hasRole("ADMIN")
+
+                        // workers
+                        .requestMatchers(mvc.pattern("/company/workers/update/")).hasRole("ADMIN")
+                        .requestMatchers(mvc.pattern("/company/workers/delete/")).hasRole("ADMIN")
+                        .requestMatchers(mvc.pattern("/company/workers/patch/")).hasRole("ADMIN")
+
                         .anyRequest().authenticated()
-                        //.anyRequest().permitAll()
+//                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(customizer -> customizer
