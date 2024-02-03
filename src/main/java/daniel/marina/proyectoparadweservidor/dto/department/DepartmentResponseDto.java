@@ -10,5 +10,5 @@ public class DepartmentResponseDto {
     private UUID id;
     private String name;
     private String description;
-    private int number;
+    private Integer number;
 }
