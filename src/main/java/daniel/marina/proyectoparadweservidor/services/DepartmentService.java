@@ -2,6 +2,7 @@ package daniel.marina.proyectoparadweservidor.services;
 
 import daniel.marina.proyectoparadweservidor.errors.DepartmentException;
 import daniel.marina.proyectoparadweservidor.model.Department;
+import daniel.marina.proyectoparadweservidor.model.Worker;
 import daniel.marina.proyectoparadweservidor.repositories.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class DepartmentService {
     @Autowired
     public DepartmentService(DepartmentRepository departmentRepository){
         this.departmentRepository = departmentRepository;
+    }
+
+    public List<Department> findAll() {
+        return departmentRepository.findAll();
     }
 
     public Department findById(UUID id) {

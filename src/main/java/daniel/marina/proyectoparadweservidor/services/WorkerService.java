@@ -25,6 +25,9 @@ public class WorkerService {
         this.workerRepository = workerRepository;
         this.departmentRepository = departmentRepository;
     }
+    public List<Worker> findAll() {
+        return workerRepository.findAll();
+    }
 
     public Worker findById(UUID id) {
         return workerRepository.findById(id)
@@ -106,6 +109,7 @@ public class WorkerService {
             );
             }
     }
+
 
     private Department getDepartment(Worker worker) {
         Department department = null;
