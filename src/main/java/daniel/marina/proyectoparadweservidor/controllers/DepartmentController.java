@@ -44,7 +44,7 @@ public class DepartmentController {
         return ResponseEntity.ok(mapper.toDto(service.findByNameLike(name)));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<DepartmentResponseDto> post(@RequestBody DepartmentRequestDto requestDto) {
         return ResponseEntity.created(null)
                 .body(mapper.toDto(

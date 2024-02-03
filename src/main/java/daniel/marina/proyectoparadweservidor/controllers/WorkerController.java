@@ -45,7 +45,7 @@ public class WorkerController {
         return ResponseEntity.ok(mapper.toDto(service.findByNameLike(name)));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<WorkerResponseDto> post(@RequestBody WorkerRequestDto requestDto) {
         return ResponseEntity.created(null)
                 .body(mapper.toDto(
