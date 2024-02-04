@@ -50,14 +50,19 @@ public class SecurityConfiguration {
                         .requestMatchers(mvc.pattern("/company/users/login")).permitAll()
                         .requestMatchers(mvc.pattern("/company/users/register")).permitAll()
                         // departments
-                        .requestMatchers(mvc.pattern("/company/departments/update/")).hasRole("ADMIN")
-                        .requestMatchers(mvc.pattern("/company/departments/delete/")).hasRole("ADMIN")
-                        .requestMatchers(mvc.pattern("/company/departments/patch/")).hasRole("ADMIN")
-
+                        .requestMatchers(
+                                mvc.pattern("/company/departments/create"),
+                                mvc.pattern("/company/departments/update/{id}"),
+                                mvc.pattern("/company/departments/delete/{id}"),
+                                mvc.pattern("/company/departments/patch/{id}")
+                                ).hasRole("ADMIN")
                         // workers
-                        .requestMatchers(mvc.pattern("/company/workers/update/")).hasRole("ADMIN")
-                        .requestMatchers(mvc.pattern("/company/workers/delete/")).hasRole("ADMIN")
-                        .requestMatchers(mvc.pattern("/company/workers/patch/")).hasRole("ADMIN")
+                                .requestMatchers(
+                                        mvc.pattern("/company/workers/create"),
+                                        mvc.pattern("/company/workers/update/{id}"),
+                                        mvc.pattern("/company/workers/delete/{id}"),
+                                        mvc.pattern("/company/workers/patch/{id}")
+                                ).hasRole("ADMIN")
 
                         .anyRequest().authenticated()
 //                        .anyRequest().permitAll()
