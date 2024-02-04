@@ -17,18 +17,15 @@ import java.util.UUID;
 
 @SpringBootApplication
 public class ProyectoParaDweServidorApplication {
-
-
     public static void main(String[] args) {
         SpringApplication.run(ProyectoParaDweServidorApplication.class, args);
     }
 
     @Bean
     public CommandLineRunner init(UserService userService, DepartmentService departmentService, WorkerService workerService) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
         UserDtoCreate admin = new UserDtoCreate(
                 "admin@company.com",
-                encoder.encode("admin1234"),
+                "admin1234",
                 Role.ADMIN
         );
 

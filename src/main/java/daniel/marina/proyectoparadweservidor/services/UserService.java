@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class UserService implements UserDetailsService {
     private final JwtTokenUtils tokenUtils;
 
     private final UserMapper mapper;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Autowired
     public UserService(UserRepository repository, JwtTokenUtils tokenUtils, UserMapper mapper) {
@@ -51,7 +53,7 @@ public class UserService implements UserDetailsService {
                     "There's already an account linked to this email.");
         }
 
-        User saved = repository.save(new User(null, dto.getEmail(), dto.getPassword(), Role.USER));
+        User saved = repository.save(new User(null, dto.getEmail(), encoder.encode(dto.getPassword()), Role.USER));
         return new UserDtoWithToken(
                 mapper.toDto(saved),
                 tokenUtils.create(saved)
@@ -65,7 +67,7 @@ public class UserService implements UserDetailsService {
                     "There's already an account linked to this email.");
         }
 
-        User saved = repository.save(new User(null, dto.getEmail(), dto.getPassword(), dto.getRole()));
+        User saved = repository.save(new User(null, dto.getEmail(), encoder.encode(dto.getPassword()), dto.getRole()));
         return new UserDtoWithToken(
                 mapper.toDto(saved),
                 tokenUtils.create(saved)
@@ -98,12 +100,13 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UserException.UserNotFoundException(
                         "User with ID " + id + " not found."));
 
-        if (!Objects.equals(user.getUserPassword(), dto.getPassword())) {
+        if (!encoder.matches(dto.getPassword(), user.getUserPassword())) {
             throw new UserException.UserBadRequestException(
                     "Incorrect password.");
         }
 
-        User saved = repository.save(new User(user.getId(), user.getUsername(), dto.getNewPassword(), user.getRole()));
+        User saved = repository.save(new User(user.getId(), user.getUsername(),
+                encoder.encode(dto.getNewPassword()), user.getRole()));
         return mapper.toDto(saved);
     }
 
@@ -112,12 +115,13 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UserException.UserNotFoundException(
                         "User with email " + dto.getEmail() + " not found."));
 
-        if (!Objects.equals(user.getUserPassword(), dto.getPassword())) {
+        if (!encoder.matches(dto.getPassword(), user.getUserPassword())) {
             throw new UserException.UserBadRequestException(
                     "Incorrect password.");
         }
 
-        User saved = repository.save(new User(user.getId(), user.getUsername(), dto.getNewPassword(), user.getRole()));
+        User saved = repository.save(new User(user.getId(), user.getUsername(),
+                encoder.encode(dto.getNewPassword()), user.getRole()));
         return mapper.toDto(saved);
     }
 

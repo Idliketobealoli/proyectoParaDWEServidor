@@ -1,6 +1,7 @@
 package daniel.marina.proyectoparadweservidor.config;
 
 import daniel.marina.proyectoparadweservidor.config.jwt.JwtAuthenticationFilter;
+import daniel.marina.proyectoparadweservidor.config.jwt.JwtAuthorizationFilter;
 import daniel.marina.proyectoparadweservidor.config.jwt.JwtTokenUtils;
 import daniel.marina.proyectoparadweservidor.mappers.UserMapper;
 import daniel.marina.proyectoparadweservidor.repositories.UserRepository;
@@ -29,45 +30,52 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-    private final UserRepository repository;
-
     private final JwtTokenUtils tokenUtils;
+    private final UserService service;
 
-    private final UserMapper mapper;
-
-    public SecurityConfiguration(UserRepository repository, JwtTokenUtils tokenUtils, UserMapper mapper) {
-        this.repository = repository;
+    public SecurityConfiguration(JwtTokenUtils tokenUtils, UserService service
+    ) {
         this.tokenUtils = tokenUtils;
-        this.mapper = mapper;
+        this.service = service;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+        AuthenticationManager authManager = authManager(http);
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        // users
-                        .requestMatchers(mvc.pattern("/company/users/login")).permitAll()
-                        .requestMatchers(mvc.pattern("/company/users/register")).permitAll()
-                        // departments
+                        .requestMatchers("/error/**").permitAll()
+                        // login / register
                         .requestMatchers(
-                                mvc.pattern("/company/departments/create"),
-                                mvc.pattern("/company/departments/update/{id}"),
-                                mvc.pattern("/company/departments/delete/{id}"),
-                                mvc.pattern("/company/departments/patch/{id}")
-                                ).hasRole("ADMIN")
-                        // workers
-                                .requestMatchers(
-                                        mvc.pattern("/company/workers/create"),
-                                        mvc.pattern("/company/workers/update/{id}"),
-                                        mvc.pattern("/company/workers/delete/{id}"),
-                                        mvc.pattern("/company/workers/patch/{id}")
-                                ).hasRole("ADMIN")
+                                mvc.pattern("/company/users/login"),
+                                mvc.pattern("/company/users/register")).permitAll()
+
+                        .requestMatchers(
+                                "/company/users",
+                                "/company/users/email/{email}",
+                                "/company/users/id/{id}",
+                                "/company/workers",
+                                "/company/workers/id/{id}",
+                                "/company/departments",
+                                "/company/departments/id/{id}",
+                                "/company/departments/create",
+                                "/company/workers/create",
+                                "/company/users/create",
+                                "/company/users/update",
+                                "/company/workers/update/{id}",
+                                "/company/departments/update/{id}",
+                                "/company/workers/patch/{id}",
+                                "/company/departments/patch/{id}",
+                                "/company/users/delete/{email}",
+                                "/company/workers/delete/{id}",
+                                "/company/departments/delete/{id}").hasAnyRole("ADMIN")
 
                         .anyRequest().authenticated()
-//                        .anyRequest().permitAll()
+                        //.anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilter(jwtAuthorizationFilter(authManager))
                 .sessionManagement(customizer -> customizer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
@@ -81,23 +89,23 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter(AuthenticationManager manager) {
+        return new JwtAuthorizationFilter(tokenUtils, service, manager);
+    }
+
+    @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setUserDetailsService(service);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity  http) throws Exception {
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+        authenticationManagerBuilder.userDetailsService(service);
         return authenticationManagerBuilder.build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserService(repository, tokenUtils, mapper);
     }
 
     @Bean
