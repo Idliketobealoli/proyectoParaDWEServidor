@@ -125,6 +125,7 @@ public class UserService implements UserDetailsService {
         return mapper.toDto(saved);
     }
 
+    //TODO: Cambiar a que sea por ID.
     public UserDto delete(String email) {
         User user = repository.findByUserName(email)
                 .orElseThrow(() -> new UserException.UserNotFoundException(
