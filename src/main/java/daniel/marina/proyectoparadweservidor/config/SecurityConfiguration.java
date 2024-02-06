@@ -38,7 +38,7 @@ public class SecurityConfiguration {
     ) {
         this.tokenUtils = tokenUtils;
         this.service = service;
-    }
+    }   // Can be substitued by @RequiredArgsConstructor
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
