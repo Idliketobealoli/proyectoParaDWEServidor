@@ -131,7 +131,15 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UserException.UserNotFoundException(
                         "User with email " + email + " not found."));
 
-        repository.deleteById(user.getId());
+        repository.delete(user);
+        return mapper.toDto(user);
+    }
+    public UserDto delete(UUID id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new UserException.UserNotFoundException(
+                        "User with email " + id + " not found."));
+
+        repository.delete(user);
         return mapper.toDto(user);
     }
 }
