@@ -9,7 +9,6 @@ import daniel.marina.proyectoparadweservidor.model.User;
 import daniel.marina.proyectoparadweservidor.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;

@@ -4,7 +4,6 @@ import daniel.marina.proyectoparadweservidor.errors.DepartmentException;
 import daniel.marina.proyectoparadweservidor.model.Department;
 import daniel.marina.proyectoparadweservidor.repositories.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

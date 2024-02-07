@@ -7,7 +7,6 @@ import daniel.marina.proyectoparadweservidor.model.Worker;
 import daniel.marina.proyectoparadweservidor.repositories.DepartmentRepository;
 import daniel.marina.proyectoparadweservidor.repositories.WorkerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
