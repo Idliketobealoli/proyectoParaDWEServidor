@@ -6,6 +6,7 @@ import daniel.marina.proyectoparadweservidor.model.Department;
 import daniel.marina.proyectoparadweservidor.model.Worker;
 import daniel.marina.proyectoparadweservidor.repositories.DepartmentRepository;
 import daniel.marina.proyectoparadweservidor.repositories.WorkerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +15,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class WorkerService {
     private final WorkerRepository workerRepository;
     private final DepartmentRepository departmentRepository;
 
-    @Autowired
-    public WorkerService(WorkerRepository workerRepository, DepartmentRepository departmentRepository) {
-        this.workerRepository = workerRepository;
-        this.departmentRepository = departmentRepository;
-    }
     public List<Worker> findAll() {
         return workerRepository.findAll();
     }

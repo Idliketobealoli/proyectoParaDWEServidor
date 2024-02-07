@@ -7,6 +7,7 @@ import daniel.marina.proyectoparadweservidor.mappers.UserMapper;
 import daniel.marina.proyectoparadweservidor.model.Role;
 import daniel.marina.proyectoparadweservidor.model.User;
 import daniel.marina.proyectoparadweservidor.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,20 +21,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
     private final JwtTokenUtils tokenUtils;
-
     private final UserMapper mapper;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
-
-    @Autowired
-    public UserService(UserRepository repository, JwtTokenUtils tokenUtils, UserMapper mapper) {
-        this.repository = repository;
-        this.tokenUtils = tokenUtils;
-        this.mapper = mapper;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

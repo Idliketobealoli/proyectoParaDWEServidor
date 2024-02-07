@@ -4,6 +4,7 @@ import daniel.marina.proyectoparadweservidor.dto.department.DepartmentRequestDto
 import daniel.marina.proyectoparadweservidor.dto.department.DepartmentResponseDto;
 import daniel.marina.proyectoparadweservidor.mappers.DepartmentMapper;
 import daniel.marina.proyectoparadweservidor.services.DepartmentService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/company/departments")
 @Slf4j
+@RequiredArgsConstructor
 public class DepartmentController {
     private final DepartmentService service;
     private final DepartmentMapper mapper;
-
-    @Autowired
-    public DepartmentController(DepartmentService service, DepartmentMapper mapper) {
-        this.service = service;
-        this.mapper = mapper;
-    }
 
     @GetMapping("")
     public ResponseEntity<List<DepartmentResponseDto>> getAll() {
