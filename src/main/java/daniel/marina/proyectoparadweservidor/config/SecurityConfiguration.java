@@ -6,6 +6,7 @@ import daniel.marina.proyectoparadweservidor.config.jwt.JwtTokenUtils;
 import daniel.marina.proyectoparadweservidor.mappers.UserMapper;
 import daniel.marina.proyectoparadweservidor.repositories.UserRepository;
 import daniel.marina.proyectoparadweservidor.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,16 +30,11 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private final JwtTokenUtils tokenUtils;
     private final UserService service;
-
-    public SecurityConfiguration(JwtTokenUtils tokenUtils, UserService service
-    ) {
-        this.tokenUtils = tokenUtils;
-        this.service = service;
-    }   // Can be substitued by @RequiredArgsConstructor
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
