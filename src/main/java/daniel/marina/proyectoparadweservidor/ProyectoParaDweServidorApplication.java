@@ -1,9 +1,5 @@
 package daniel.marina.proyectoparadweservidor;
 
-import daniel.marina.proyectoparadweservidor.dto.user.UserDtoCreate;
-import daniel.marina.proyectoparadweservidor.model.Department;
-import daniel.marina.proyectoparadweservidor.model.Role;
-import daniel.marina.proyectoparadweservidor.model.Worker;
 import daniel.marina.proyectoparadweservidor.services.DataInsertionService;
 import daniel.marina.proyectoparadweservidor.services.DepartmentService;
 import daniel.marina.proyectoparadweservidor.services.UserService;
@@ -12,8 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.UUID;
 
 @SpringBootApplication
 public class ProyectoParaDweServidorApplication {
