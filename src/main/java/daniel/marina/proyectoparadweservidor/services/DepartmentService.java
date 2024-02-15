@@ -3,7 +3,7 @@ package daniel.marina.proyectoparadweservidor.services;
 import daniel.marina.proyectoparadweservidor.errors.DepartmentException;
 import daniel.marina.proyectoparadweservidor.model.Department;
 import daniel.marina.proyectoparadweservidor.repositories.DepartmentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,13 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class DepartmentService {
     private final DepartmentRepository departmentRepository;
-
-    @Autowired
-    public DepartmentService(DepartmentRepository departmentRepository){
-        this.departmentRepository = departmentRepository;
-    }
 
     public List<Department> findAll() {
         return departmentRepository.findAll();

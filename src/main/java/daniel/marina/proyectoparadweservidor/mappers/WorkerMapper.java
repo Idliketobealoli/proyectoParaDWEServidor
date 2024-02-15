@@ -4,6 +4,7 @@ import daniel.marina.proyectoparadweservidor.dto.worker.WorkerRequestDto;
 import daniel.marina.proyectoparadweservidor.dto.worker.WorkerResponseDto;
 import daniel.marina.proyectoparadweservidor.model.Worker;
 import daniel.marina.proyectoparadweservidor.services.DepartmentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,12 +12,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class WorkerMapper {
     private final DepartmentService departmentService;
-    @Autowired
-    public WorkerMapper(DepartmentService departmentService){
-        this.departmentService = departmentService;
-    }
+
     public WorkerResponseDto toDto(Worker worker){
         return new WorkerResponseDto(
                 worker.getId(),

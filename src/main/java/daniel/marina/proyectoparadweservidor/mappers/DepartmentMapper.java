@@ -31,13 +31,4 @@ public class DepartmentMapper {
                 departmentRequestDto.getNumber()
         );
     }
-
-    /* public Department toModel(UUID id) {
-        return new Department(
-                id,
-               null,
-                null,
-                0
-        );
-    } */
 }

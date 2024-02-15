@@ -7,7 +7,7 @@ import daniel.marina.proyectoparadweservidor.mappers.UserMapper;
 import daniel.marina.proyectoparadweservidor.model.Role;
 import daniel.marina.proyectoparadweservidor.model.User;
 import daniel.marina.proyectoparadweservidor.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,20 +20,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
     private final JwtTokenUtils tokenUtils;
-
     private final UserMapper mapper;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
-
-    @Autowired
-    public UserService(UserRepository repository, JwtTokenUtils tokenUtils, UserMapper mapper) {
-        this.repository = repository;
-        this.tokenUtils = tokenUtils;
-        this.mapper = mapper;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -131,7 +124,15 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UserException.UserNotFoundException(
                         "User with email " + email + " not found."));
 
-        repository.deleteById(user.getId());
+        repository.delete(user);
+        return mapper.toDto(user);
+    }
+    public UserDto delete(UUID id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new UserException.UserNotFoundException(
+                        "User with email " + id + " not found."));
+
+        repository.delete(user);
         return mapper.toDto(user);
     }
 }

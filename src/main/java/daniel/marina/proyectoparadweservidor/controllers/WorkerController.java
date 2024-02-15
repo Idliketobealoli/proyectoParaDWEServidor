@@ -5,8 +5,8 @@ import daniel.marina.proyectoparadweservidor.dto.worker.WorkerRequestDto;
 import daniel.marina.proyectoparadweservidor.dto.worker.WorkerResponseDto;
 import daniel.marina.proyectoparadweservidor.mappers.WorkerMapper;
 import daniel.marina.proyectoparadweservidor.services.WorkerService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/company/workers")
 @Slf4j
+@RequiredArgsConstructor
 public class WorkerController {
     private final WorkerService service;
     private final WorkerMapper mapper;
-    @Autowired
-    public WorkerController(WorkerService service, WorkerMapper mapper) {
-        this.service = service;
-        this.mapper = mapper;
-    }
 
     @GetMapping("")
     public ResponseEntity<List<WorkerResponseDto>> getAll() {

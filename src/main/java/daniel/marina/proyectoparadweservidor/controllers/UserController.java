@@ -7,8 +7,8 @@ import daniel.marina.proyectoparadweservidor.mappers.UserMapper;
 import daniel.marina.proyectoparadweservidor.model.Role;
 import daniel.marina.proyectoparadweservidor.model.User;
 import daniel.marina.proyectoparadweservidor.services.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -25,18 +25,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/company/users")
 @Slf4j
+@RequiredArgsConstructor
 public class UserController {
     private final UserService service;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtils jwtTokenUtils;
     private final UserMapper mapper;
-
-    @Autowired public UserController(UserService service, AuthenticationManager authenticationManager, JwtTokenUtils jwtTokenUtils, UserMapper mapper) {
-        this.service = service;
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenUtils = jwtTokenUtils;
-        this.mapper = mapper;
-    }
 
     @GetMapping("")
     public ResponseEntity<List<UserDto>> getAll(
@@ -127,12 +121,20 @@ public class UserController {
         return ResponseEntity.ok(service.update(dto));
     }
 
-    @DeleteMapping("/delete/{email}")
+    @DeleteMapping("/delete/by-email/{email}")
     public ResponseEntity<UserDto> delete(
             @PathVariable String email,
             @AuthenticationPrincipal User user
     ) {
         log.info("Deleting");
         return ResponseEntity.ok(service.delete(email));
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<UserDto> delete(
+            @PathVariable UUID id,
+            @AuthenticationPrincipal User user
+    ) {
+        log.info("Deleting");
+        return ResponseEntity.ok(service.delete(id));
     }
 }

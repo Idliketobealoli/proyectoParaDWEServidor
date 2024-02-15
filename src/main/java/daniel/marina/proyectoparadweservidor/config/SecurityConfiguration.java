@@ -3,9 +3,8 @@ package daniel.marina.proyectoparadweservidor.config;
 import daniel.marina.proyectoparadweservidor.config.jwt.JwtAuthenticationFilter;
 import daniel.marina.proyectoparadweservidor.config.jwt.JwtAuthorizationFilter;
 import daniel.marina.proyectoparadweservidor.config.jwt.JwtTokenUtils;
-import daniel.marina.proyectoparadweservidor.mappers.UserMapper;
-import daniel.marina.proyectoparadweservidor.repositories.UserRepository;
 import daniel.marina.proyectoparadweservidor.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,7 +17,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,16 +27,11 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
     private final JwtTokenUtils tokenUtils;
     private final UserService service;
-
-    public SecurityConfiguration(JwtTokenUtils tokenUtils, UserService service
-    ) {
-        this.tokenUtils = tokenUtils;
-        this.service = service;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
