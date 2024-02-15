@@ -19,6 +19,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://repo.maven.apache.org/maven2/") }
 }
 
 dependencies {
@@ -27,6 +28,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.auth0:java-jwt:4.4.0")
+    // https://mvnrepository.com/artifact/com.github.javafaker/javafaker
+    implementation("net.datafaker:datafaker:2.1.0")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.h2database:h2")
     annotationProcessor("org.projectlombok:lombok")
