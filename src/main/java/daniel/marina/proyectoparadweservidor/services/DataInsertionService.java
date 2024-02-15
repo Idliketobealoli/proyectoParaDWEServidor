@@ -62,7 +62,7 @@ public class DataInsertionService {
             Worker worker = new Worker(
                     UUID.randomUUID(),
                     faker.dragonBall().character(),
-                    faker.internet().emailAddress(), // Marina mira esto
+                    faker.internet().emailAddress(),
                     faker.phoneNumber().phoneNumberInternational(),
                     randomDepUuid
             );
