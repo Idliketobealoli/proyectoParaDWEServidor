@@ -12,16 +12,6 @@
 				{
 					"name": "ALL",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{admin_token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -104,7 +94,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"tech\",\r\n    \"description\": \"tech department\",\r\n    \"number\": 20\r\n}",
+							"raw": "{\r\n    \"id\":\"\",\r\n    \"name\": \"tech\",\r\n    \"description\": \"tech department\",\r\n    \"number\": 20\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -128,16 +118,6 @@
 				{
 					"name": "UPDATE",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{admin_token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -230,16 +210,6 @@
 				{
 					"name": "ALL",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -375,16 +345,6 @@
 				{
 					"name": "DELETE",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [],
 						"body": {
@@ -472,10 +432,107 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "ALL",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@company.com\",\r\n    \"password\":\"admin1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/company/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"company",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@company.com\",\r\n    \"password\": \"user1234\",\r\n    \"repeatPassword\": \"user1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/company/users/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"company",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/company/users/delete/{{use_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"company",
+								"users",
+								"delete",
+								"{{use_id}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{admin_token}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -526,6 +583,10 @@
 			"key": "admin_token",
 			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlMGI1YWNiZC04NTYzLTQyNGUtYmQxMS0zZTM2YzQ4NDIwNzMiLCJ1c2VybmFtZSI6ImFkbWluQGNvbXBhbnkuY29tIiwicm9sZSI6IkFETUlOIiwiaXNzIjoicHJveWVjdG9QYXJhRFdFU2Vydmlkb3IiLCJleHAiOjE3MDcxNjI1MDh9.sTyw7h3uxvPbYF0jfWGvtNyd9w8z2i42M14stKOfp8BrZv3JibbtzZMdxEsQ8BCkLJ0dt_zepKVQIpOZs76Aow",
 			"type": "string"
+		},
+		{
+			"key": "use_id",
+			"value": "7e125649-d126-4c46-a3bf-5da3f71484c6"
 		}
 	]
 }
