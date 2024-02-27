@@ -68,7 +68,7 @@ public class UserController {
         return ResponseEntity.ok(service.findUserById(id));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<UserDtoWithToken> create(
             @AuthenticationPrincipal User user,
             @Valid @RequestBody UserDtoCreate dto
@@ -101,6 +101,7 @@ public class UserController {
         return ResponseEntity.ok(new UserDtoWithToken(mapper.toDto(user), jwtTokenUtils.create(user)));
     }
 
+    // TODO: Implementar en postman los métodos de update
     @PutMapping("/update/me")
     public ResponseEntity<UserDto> updateMySelf(
             @AuthenticationPrincipal User user,
