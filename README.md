@@ -2,107 +2,80 @@
 
 ![image](https://github.com/Idliketobealoli/proyectoParaDWEServidor/assets/105634828/8066338a-b95d-4f8e-8c64-50ffcf5b207f)
 
+- API para la gestión de una empresa que cuenta con departamentos, trabajadores y distintos tipos de usuarios (ADMIN, USER).
+- Como administrador se pueden crear, modificar y eliminar los departamentos, los trabajadores y los usuarios. Sin embargo, como usuario solo se pueden leer los mismos con la excepción de que cada usuario tiene la posibilidad de actualizar sus propios datos.
+- URL base: `http://localhost:8080/company`
+
 ## CRUD de Departamentos
 
 ### 1. Obtener una lista con todos los departamentos
-
 Permite obtener una lista completa con todos los departamentos que existen.
-
 #### Request
-
 - Método: GET
-- URL: `/departamentos`
-
+- URL: `/departments`
 #### Respuesta Exitosa
-
 - Código: 200 (OK)
 - Contenido: Lista de todos los departamentos
-
 #### Respuestas de Error
-
 - Código: 403 (Forbidden)
   - Descripción: No se tiene acceso a la petición.
 - Código: 404 (Not Found)
   - Descripción: El recurso no fue encontrado.
 
 ### 2. Obtener un departamento mediante distintos parámetros (ID, Número y Nombre)
-
 Permite obtener toda la información de un departamento mediante su ID.
-
 #### Request
-
 - Método: GET
-- URL: `/departamentos/{id}`
-
+- URL: `departments/id/{id}`
+- URL: `departments/name/{name}`
 #### Respuesta Exitosa
-
 - Código: 200 (OK)
 - Contenido: Datos del departamento solicitado
-
 #### Respuestas de Error
-
 - Código: 403 (Forbidden)
   - Descripción: No se tiene permiso para realizar la solicitud.
 - Código: 404 (Not Found)
   - Descripción: El departamento solicitado no existe.
 
 ### 3. Crear un departamento
-
 Permite crear un nuevo departamento.
-
 #### Request
-
 - Método: POST
-- URL: `/departamentos`
-
+- URL: `/departments/create`
 #### Respuesta Exitosa
-
 - Código: 201 (Created)
 - Contenido: Datos del nuevo departamento creado
-
 #### Respuestas de Error
-
 - Código: 400 (Bad Request)
   - Descripción: El ID del departamento ya está en uso.
 - Código: 403 (Forbidden)
   - Descripción: No se tiene permiso para crear nuevos departamentos.
 
 ### 4. Actualizar los datos de un departamento (total y parcialmente)
-
 Permite modificar los datos de un departamento registrado.
-
-#### Request
-
+#### Request (total)
 - Método: PUT
-- URL: `/departamentos/{id}`
-
+- URL: `/departments/update/{id}`
+#### Request (parcial)
+- Método: PATCH
+- URL: `/departments/patch/{id}`
 #### Respuesta Exitosa
-
 - Código: 200 (OK)
 - Contenido: Datos del departamento actualizado
-
 #### Respuestas de Error
-
 - Código: 403 (Forbidden)
   - Descripción: No se tiene permiso para modificar los datos del departamento.
 - Código: 404 (Not Found)
   - Descripción: El departamento a actualizar no existe.
 
 ### 5. Eliminar un departamento
-
 Permite eliminar un departamento.
-
 #### Request
-
 - Método: DELETE
-- URL: `/departamentos/{id}`
-
+- URL: `/departments/delete/{id}`
 #### Respuesta Exitosa
-
 - Código: 204 (No Content)
-
 #### Respuestas de Error
-
 - Código: 403 (Forbidden)
   - Descripción: No se tiene permiso para eliminar el departamento.
 - Código: 404 (Not Found)
@@ -117,7 +90,7 @@ Permite obtener una lista completa con todos los trabajadores registrados en la 
 #### Request
 
 - Método: GET
-- URL: `/trabajadores`
+- URL: `/company/workers`
 
 #### Respuesta Exitosa
 
@@ -136,7 +109,7 @@ Permite obtener toda la información de un trabajador mediante su ID o su nombre
 #### Request
 
 - Método: GET
-- URL: `/trabajadores/{id}`
+- URL: `/company/workers/{id}`
 
 #### Respuesta Exitosa
 
@@ -157,7 +130,7 @@ Permite registrar un nuevo trabajador en la empresa.
 #### Request
 
 - Método: POST
-- URL: `/trabajadores`
+- URL: `/company/workers`
 
 #### Respuesta Exitosa
 
@@ -178,7 +151,7 @@ Permite modificar los datos de un trabajador registrado.
 #### Request
 
 - Método: PUT
-- URL: `/trabajadores/{id}`
+- URL: `/company/workers/{id}`
 
 #### Respuesta Exitosa
 
@@ -199,7 +172,7 @@ Permite eliminar un trabajador registrado en la empresa.
 #### Request
 
 - Método: DELETE
-- URL: `/trabajadores/{id}`
+- URL: `/company/workers/{id}`
 
 #### Respuesta Exitosa
 
@@ -221,7 +194,7 @@ Permite obtener una lista completa con todos los usuarios registrados en la empr
 #### Request
 
 - Método: GET
-- URL: `/usuarios`
+- URL: `/company/users`
 - Parámetros: 
   - Opcional: `role=[rol]` (para filtrar por rol)
 
@@ -242,7 +215,7 @@ Permite obtener toda la información de un usuario (excepto su contraseña) medi
 #### Request
 
 - Método: GET
-- URL: `/usuarios/{id_o_email}`
+- URL: `/company/users/{id_o_email}`
 
 #### Respuesta Exitosa
 
@@ -263,7 +236,7 @@ Permite registrar un nuevo usuario en la empresa, con el rol que considere el ad
 #### Request
 
 - Método: POST
-- URL: `/usuarios`
+- URL: `/company/users`
 
 #### Respuesta Exitosa
 
@@ -284,7 +257,7 @@ Permite modificar los datos de un usuario registrado.
 #### Request
 
 - Método: PUT
-- URL: `/usuarios/{id}`
+- URL: `/company/users/{id}`
 
 #### Respuesta Exitosa
 
@@ -305,7 +278,7 @@ Permite eliminar un usuario registrado en la empresa.
 #### Request
 
 - Método: DELETE
-- URL: `/usuarios/{id}`
+- URL: `/company/users/{id}`
 
 #### Respuesta Exitosa
 
@@ -327,7 +300,7 @@ Permite modificar los datos del mismo usuario que accede a este endpoint. No req
 #### Request
 
 - Método: PUT
-- URL: `/usuarios/me`
+- URL: `/company/users/me`
 
 #### Respuesta Exitosa
 
@@ -346,7 +319,7 @@ Permite registrar un nuevo usuario en la empresa, con el rol de USER.
 #### Request
 
 - Método: POST
-- URL: `/usuarios/register`
+- URL: `/company/users/register`
 
 #### Respuesta Exitosa
 
@@ -365,7 +338,7 @@ Permite autenticarse en el programa.
 #### Request
 
 - Método: POST
-- URL: `/usuarios/login`
+- URL: `/company/users/login`
 
 #### Respuesta Exitosa
 
