@@ -37,6 +37,7 @@ public class DepartmentService {
                 ));
     }
 
+    // TODO: delete all the workers from that department
     public void delete(UUID id) {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new DepartmentException.DepartmentNotFoundException(
