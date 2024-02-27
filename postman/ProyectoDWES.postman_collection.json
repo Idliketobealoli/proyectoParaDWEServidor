@@ -520,6 +520,42 @@
 					"response": []
 				},
 				{
+					"name": "ROLE",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@company.com\",\r\n    \"password\":\"admin1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/company/users?role=USER",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"company",
+								"users"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "USER"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "ID",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -598,7 +634,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/company/users/delete/{{use_id}}",
+							"raw": "{{base_url}}/company/users/delete/id/{{use_id}}",
 							"host": [
 								"{{base_url}}"
 							],
@@ -606,6 +642,7 @@
 								"company",
 								"users",
 								"delete",
+								"id",
 								"{{use_id}}"
 							]
 						}
@@ -627,7 +664,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/company/users/delete/{{user_email}}",
+							"raw": "{{base_url}}/company/users/delete/email/{{user_email}}",
 							"host": [
 								"{{base_url}}"
 							],
@@ -635,6 +672,7 @@
 								"company",
 								"users",
 								"delete",
+								"email",
 								"{{user_email}}"
 							]
 						}
