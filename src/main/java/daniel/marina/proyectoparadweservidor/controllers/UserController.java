@@ -122,20 +122,20 @@ public class UserController {
         return ResponseEntity.ok(service.update(dto));
     }
 
-    @DeleteMapping("/delete/by-email/{email}")
+    @DeleteMapping("/delete/email/{email}")
     public ResponseEntity<UserDto> delete(
             @PathVariable String email,
             @AuthenticationPrincipal User user
     ) {
-        log.info("Deleting");
-        return ResponseEntity.ok(service.delete(email));
+        service.delete(email);
+        return ResponseEntity.noContent().build();
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<UserDto> delete(
             @PathVariable UUID id,
             @AuthenticationPrincipal User user
     ) {
-        log.info("Deleting");
-        return ResponseEntity.ok(service.delete(id));
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
