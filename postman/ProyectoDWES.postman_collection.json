@@ -412,7 +412,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"admin@company.com\",\r\n    \"password\":\"admin1234\"\r\n}",
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\":\"admin1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -428,6 +428,62 @@
 								"company",
 								"users",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@company.com\",\r\n    \"password\": \"user1234\",\r\n    \"repeatPassword\": \"user1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/company/users/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"company",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin2@gmail.com\",\r\n    \"password\": \"admin2222\",\r\n    \"role\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/company/users/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"company",
+								"users",
+								"create"
 							]
 						}
 					},
@@ -464,13 +520,16 @@
 					"response": []
 				},
 				{
-					"name": "REGISTER",
+					"name": "ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"user@company.com\",\r\n    \"password\": \"user1234\",\r\n    \"repeatPassword\": \"user1234\"\r\n}",
+							"raw": "{\r\n    \"email\": \"admin@company.com\",\r\n    \"password\":\"admin1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -478,14 +537,47 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/company/users/register",
+							"raw": "{{base_url}}/company/users/id/{{use_id}}",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"company",
 								"users",
-								"register"
+								"id",
+								"{{use_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EMAIL",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@company.com\",\r\n    \"password\":\"admin1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/company/users/email/{{user_email}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"company",
+								"users",
+								"email",
+								"{{user_email}}"
 							]
 						}
 					},
@@ -515,6 +607,35 @@
 								"users",
 								"delete",
 								"{{use_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EMAIL",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/company/users/delete/{{user_email}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"company",
+								"users",
+								"delete",
+								"{{user_email}}"
 							]
 						}
 					},
@@ -587,6 +708,11 @@
 		{
 			"key": "use_id",
 			"value": "7e125649-d126-4c46-a3bf-5da3f71484c6"
+		},
+		{
+			"key": "user_email",
+			"value": "gus.gottlieb@example.com",
+			"type": "string"
 		}
 	]
 }
